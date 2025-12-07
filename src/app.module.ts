@@ -7,6 +7,9 @@ import { CarModule } from './car/car.module';
 import { CarTypeModule } from './car-type/car-type.module';
 import { ConfigModule } from '@nestjs/config';
 import { PrismaModule } from './prisma/prisma.module';
+import { JwtModule } from './jwt/jwt.module';
+import { AuthModule } from './auth/auth.module';
+
 
 @Module({
   imports: [
@@ -15,7 +18,8 @@ import { PrismaModule } from './prisma/prisma.module';
     UserModule, 
     BookingModule, 
     CarModule, 
-    CarTypeModule
+    CarTypeModule,
+    AuthModule
   ],
   controllers: [AppController],
   providers: [AppService],

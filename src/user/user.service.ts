@@ -9,22 +9,10 @@ export class UserService {
 
     async signUp(signUp:SignUp){
         try {
-            const existing_user = await this.prisma.user.findUnique({
-                where:{
-                    email:signUp.email
-                }
-            })
-            if(existing_user){
-                throw new ForbiddenException({message:"User already exists"})
-            }
-            const hashingKey = this.config.get<string>('HASHING_KEY');
-            const hashed_pass = await argon2.hash(signUp.password, {
-                secret: hashingKey ? Buffer.from(hashingKey) : undefined
-            });
             const user = await this.prisma.user.create({
                 data:{
                     email:signUp.email,
-                    password:hashed_pass,
+                    password:signUp.password,
                     last_name:signUp.last_name,
                     first_name:signUp.first_name
                 }
@@ -33,7 +21,6 @@ export class UserService {
         } catch (error) {
             throw new BadRequestException({error})
         }
-        
     }
 
     async getAllUsers(){

@@ -1,6 +1,5 @@
 import { Body, Controller, Delete, Get, Param ,ParseIntPipe,Post, UsePipes} from '@nestjs/common';
-import {ValidationPipe} from "@nestjs/common"
-import {SignUp,LogIn} from './custom.dto' 
+
 import { UserService } from './user.service';
 
 @Controller('users')
@@ -23,17 +22,10 @@ export class UserController {
         return this.userService.deleteUser(id)
     }
 
-    @Post('signup')
-    @UsePipes(new ValidationPipe({transform:true}))
-    signUp(@Body() signUpInputs:SignUp){
-        return this.userService.signUp(signUpInputs)
-    }
-
-    // @Post('signin')
-    // @UsePipes(new ValidationPipe())
-    // LogIn(@Body() logInputs:LogIn){
-    //     return this.userService.LogIn(logInputs)
+    // @Post('signup')
+    // @UsePipes(new ValidationPipe({transform:true}))
+    // signUp(@Body() signUpInputs:SignUp){
+    //     return this.userService.signUp(signUpInputs)
     // }
-    
 
 }
