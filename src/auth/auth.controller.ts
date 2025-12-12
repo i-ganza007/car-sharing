@@ -19,7 +19,7 @@ export class AuthController{
     async login(@Body() loginCred:LogIn,@Res({passthrough:true}) res:Response){
         // User is already validated by LocalStrategy, no need to validate again
         let sec_key = await this.authService.login(loginCred) 
-        res.cookie('user_cookie',sec_key.access_token,{httpOnly:false})
+        res.cookie('user_cookie',sec_key.access_token)
         return { message: 'Success Login', access_token: sec_key.access_token }
     }
 

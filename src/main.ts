@@ -5,10 +5,7 @@ import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-  
-  // Enable cookie parser middleware
   app.use(cookieParser());
-  
   const config = new DocumentBuilder()
     .setTitle('Cats example')
     .setDescription('The cats API description')

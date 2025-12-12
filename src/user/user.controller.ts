@@ -1,7 +1,8 @@
-import {Controller, Delete, Get, Param ,ParseIntPipe, UseGuards,} from '@nestjs/common';
+import {Controller, Delete, Get, Param ,ParseIntPipe, UseGuards,Req} from '@nestjs/common';
 
 import { UserService } from './user.service';
 import { AuthGuard } from '@nestjs/passport';
+import { Request } from 'express';
 
 @Controller('users')
 export class UserController {
@@ -11,6 +12,12 @@ export class UserController {
     @Get()
     getAllUsers(){
         return this.userService.getAllUsers()
+    }
+
+    @UseGuards(AuthGuard('jwt'))
+    @Get("loggedIn")
+    getLoggedInUser(@Req() req:Request){
+        return this.userService.getLoggedInUser(req)
     }
    
     // Transform to number

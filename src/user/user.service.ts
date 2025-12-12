@@ -1,11 +1,14 @@
-import { BadRequestException, ForbiddenException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable} from '@nestjs/common';
 import {SignUp,LogIn} from './custom.dto' 
 import { PrismaService } from 'src/prisma/prisma.service';
 import { ConfigService } from '@nestjs/config';
-import * as argon2 from 'argon2';
+import { Request } from 'express';
+import {customExtractor} from '../jwt/custom.extractor'
+import { JwtService } from '@nestjs/jwt';
+
 @Injectable()
 export class UserService {
-    constructor(private prisma: PrismaService, private config: ConfigService){}
+    constructor(private prisma: PrismaService, private config: ConfigService,private jwtSignService:JwtService){}
 
     async signUp(signUp:SignUp){
         try {
@@ -33,6 +36,17 @@ export class UserService {
                     id:id
                 }
             })
+    }
+
+    async getLoggedInUser(req:Request){
+        const token = customExtractor(req)
+        const res =  this.jwtSignService.verify(token)
+        console.log(res)
+        return await this.prisma.user.findUnique({
+            where:{
+                email:res?.email
+            }
+        })
     }
 
     async deleteUser(id){
