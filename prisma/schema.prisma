@@ -13,10 +13,55 @@ datasource db {
   provider = "postgresql"
 }
 
+enum FuelType {
+  electric
+  diesel
+  petrol
+}
+
+enum BookingState {
+  PICKED_UP
+  REJECTED
+  ACCEPTED
+
+}
+
 model User{
   id Int @id @default(autoincrement())
   email String @unique
   password String 
   first_name String?
   last_name String?
+  bookings Booking[]
+}
+
+model Car{
+  carId Int @id @default(autoincrement())
+  name String 
+  fuelType FuelType
+  horsePower String
+  licensePlate String
+  info         String
+  carTypeId Int
+  carType CarType @relation(fields: [carTypeId],references: [typeId])
+  bookings Booking[]
+}
+
+
+model CarType{
+  typeId Int @id @default(autoincrement())
+  name String
+  imageUrl String
+  car Car[]
+}
+
+model Booking {
+  bookingId Int @id @default(autoincrement())
+  state     BookingState
+  startDate DateTime @default(now())
+  endDate DateTime   
+  renterId Int 
+  renter User @relation(fields: [renterId],references: [id])
+  carId  Int
+  car    Car  @relation(fields: [carId],references: [carId])
 }
