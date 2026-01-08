@@ -33,9 +33,19 @@ export class PrismaService implements OnModuleInit, OnModuleDestroy {
     await this.prisma.$disconnect();
   }
 
-  // Direct access to models for convenience
   get user() {
     return this.prisma.user;
   }
 
+  get car(){
+    return this.prisma.car
+  }
+
+  get booking(){
+    return this.prisma.booking
+  }
+
+  get carType(){
+    return this.prisma.carType
+  }
 }

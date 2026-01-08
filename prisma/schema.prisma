@@ -33,6 +33,7 @@ model User{
   first_name String?
   last_name String?
   bookings Booking[]
+  cars     Car[]
 }
 
 model Car{
@@ -42,6 +43,8 @@ model Car{
   horsePower String
   licensePlate String
   info         String
+  ownerId      Int
+  owner        User @relation(fields: [ownerId],references: [id])
   carTypeId Int
   carType CarType @relation(fields: [carTypeId],references: [typeId])
   bookings Booking[]
@@ -52,7 +55,7 @@ model CarType{
   typeId Int @id @default(autoincrement())
   name String
   imageUrl String
-  car Car[]
+  cars Car[]
 }
 
 model Booking {
